@@ -74,7 +74,7 @@ class CheckPermissionForFilePicker extends StatelessWidget {
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-      Navigator.pop(context);
+     // Navigator.pop(context);
     }
   }
 }

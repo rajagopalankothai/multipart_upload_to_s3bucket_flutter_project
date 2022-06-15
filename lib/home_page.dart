@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_presigned_url/check_for_permission_status_for_file_picker.dart';
 import 'package:flutter_presigned_url/check_for_permission_status_for_image_picker.dart';
@@ -18,6 +17,7 @@ class _MyHomePageState extends State<MyHomePage> {
   List<File> _selectedFileFromGallery = [];
   List<File> _selectedFileFromSinglePick = [];
   List<File> _selectedFileFromMultiplePick = [];
+  final _spacer = const SizedBox(height: 8);
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +25,10 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (BuildContext context, AuthViewModel authViewModel) {
       return Scaffold(
         appBar: AppBar(title: Text(widget.title)),
-        body: Center(
+        body: SingleChildScrollView(
           child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 CheckPermissionForImagePicker(
                     name: 'Photo Gallery with Image Picker',
@@ -43,6 +44,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         //     (String? url) {});
                       }
                     }),
+                _spacer,
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _selectedFileFromGallery.map((e) {
+                      return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(left: 20),
+                          height: 110,
+                          width: 150,
+                          child: Image.file(e, fit: BoxFit.fill));
+                    }).toList()),
                 CheckPermissionForImagePicker(
                     name: 'Camera',
                     icon: Icons.photo_camera,
@@ -53,6 +65,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       }
                     }),
+                _spacer,
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _selectedFileFromCamera.map((e) {
+                      return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(left: 20),
+                          height: 110,
+                          width: 150,
+                          child: Image.file(e, fit: BoxFit.fill));
+                    }).toList()),
                 CheckPermissionForFilePicker(
                     name: 'Image Library with File Picker (Single)',
                     icon: Icons.photo_library,
@@ -65,6 +88,17 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       }
                     }),
+                _spacer,
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _selectedFileFromSinglePick.map((e) {
+                      return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(left: 20),
+                          height: 110,
+                          width: 150,
+                          child: Image.file(e, fit: BoxFit.fill));
+                    }).toList()),
                 CheckPermissionForFilePicker(
                     name: 'Image Library with File Picker (Multiple)',
                     icon: Icons.photo_library,
@@ -76,7 +110,18 @@ class _MyHomePageState extends State<MyHomePage> {
                         });
                       }
                     },
-                    imageFile: (dynamic value) {})
+                    imageFile: (dynamic value) {}),
+                _spacer,
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: _selectedFileFromMultiplePick.map((e) {
+                      return Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.only(left: 20),
+                          height: 110,
+                          width: 150,
+                          child: Image.file(e, fit: BoxFit.fill));
+                    }).toList()),
               ]),
         ),
       );
