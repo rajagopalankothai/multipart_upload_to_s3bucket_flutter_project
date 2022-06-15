@@ -57,20 +57,6 @@ class _$MyFileSerializer implements StructuredSerializer<MyFile> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.publicUrl;
-    if (value != null) {
-      result
-        ..add('public_url')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.isVisibleDrive;
-    if (value != null) {
-      result
-        ..add('is_visible_drive')
-        ..add(
-            serializers.serialize(value, specifiedType: const FullType(bool)));
-    }
     return result;
   }
 
@@ -104,14 +90,6 @@ class _$MyFileSerializer implements StructuredSerializer<MyFile> {
         case 's3_key':
           result.s3ObjectId = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
-          break;
-        case 'public_url':
-          result.publicUrl = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'is_visible_drive':
-          result.isVisibleDrive = serializers.deserialize(value,
-              specifiedType: const FullType(bool)) as bool?;
           break;
       }
     }
@@ -299,10 +277,6 @@ class _$MyFile extends MyFile {
   final String? contentType;
   @override
   final String? s3ObjectId;
-  @override
-  final String? publicUrl;
-  @override
-  final bool? isVisibleDrive;
 
   factory _$MyFile([void Function(MyFileBuilder)? updates]) =>
       (new MyFileBuilder()..update(updates))._build();
@@ -312,9 +286,7 @@ class _$MyFile extends MyFile {
       this.filename,
       this.signedUrl,
       this.contentType,
-      this.s3ObjectId,
-      this.publicUrl,
-      this.isVisibleDrive})
+      this.s3ObjectId})
       : super._();
 
   @override
@@ -332,23 +304,17 @@ class _$MyFile extends MyFile {
         filename == other.filename &&
         signedUrl == other.signedUrl &&
         contentType == other.contentType &&
-        s3ObjectId == other.s3ObjectId &&
-        publicUrl == other.publicUrl &&
-        isVisibleDrive == other.isVisibleDrive;
+        s3ObjectId == other.s3ObjectId;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc(
-                $jc(
-                    $jc($jc($jc(0, id.hashCode), filename.hashCode),
-                        signedUrl.hashCode),
-                    contentType.hashCode),
-                s3ObjectId.hashCode),
-            publicUrl.hashCode),
-        isVisibleDrive.hashCode));
+            $jc($jc($jc(0, id.hashCode), filename.hashCode),
+                signedUrl.hashCode),
+            contentType.hashCode),
+        s3ObjectId.hashCode));
   }
 
   @override
@@ -358,9 +324,7 @@ class _$MyFile extends MyFile {
           ..add('filename', filename)
           ..add('signedUrl', signedUrl)
           ..add('contentType', contentType)
-          ..add('s3ObjectId', s3ObjectId)
-          ..add('publicUrl', publicUrl)
-          ..add('isVisibleDrive', isVisibleDrive))
+          ..add('s3ObjectId', s3ObjectId))
         .toString();
   }
 }
@@ -388,15 +352,6 @@ class MyFileBuilder implements Builder<MyFile, MyFileBuilder> {
   String? get s3ObjectId => _$this._s3ObjectId;
   set s3ObjectId(String? s3ObjectId) => _$this._s3ObjectId = s3ObjectId;
 
-  String? _publicUrl;
-  String? get publicUrl => _$this._publicUrl;
-  set publicUrl(String? publicUrl) => _$this._publicUrl = publicUrl;
-
-  bool? _isVisibleDrive;
-  bool? get isVisibleDrive => _$this._isVisibleDrive;
-  set isVisibleDrive(bool? isVisibleDrive) =>
-      _$this._isVisibleDrive = isVisibleDrive;
-
   MyFileBuilder();
 
   MyFileBuilder get _$this {
@@ -407,8 +362,6 @@ class MyFileBuilder implements Builder<MyFile, MyFileBuilder> {
       _signedUrl = $v.signedUrl;
       _contentType = $v.contentType;
       _s3ObjectId = $v.s3ObjectId;
-      _publicUrl = $v.publicUrl;
-      _isVisibleDrive = $v.isVisibleDrive;
       _$v = null;
     }
     return this;
@@ -435,9 +388,7 @@ class MyFileBuilder implements Builder<MyFile, MyFileBuilder> {
             filename: filename,
             signedUrl: signedUrl,
             contentType: contentType,
-            s3ObjectId: s3ObjectId,
-            publicUrl: publicUrl,
-            isVisibleDrive: isVisibleDrive);
+            s3ObjectId: s3ObjectId);
     replace(_$result);
     return _$result;
   }

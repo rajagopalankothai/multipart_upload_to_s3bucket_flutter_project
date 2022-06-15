@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'package:built_collection/built_collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_presigned_url/check_for_permission_status_for_file_picker.dart';
 import 'package:flutter_presigned_url/check_for_permission_status_for_image_picker.dart';
 import 'package:flutter_presigned_url/connector/auth_connector.dart';
 import 'package:flutter_presigned_url/image_card.dart';
+import 'package:flutter_presigned_url/models/my_file.dart';
 import 'package:flutter_presigned_url/upload_all_button.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -15,39 +17,59 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<File> _selectedFileFromCamera = [];
   final List<File> _selectedFileFromGallery = [];
   final List<File> _selectedFileFromSinglePick = [];
   final List<File> _selectedFileFromMultiplePick = [];
-  final List<String> _attachmentNameList = [];
-  final List<File> _fileList = [];
+  final List<int> _s3UploadedIds = [];
   final _spacer = const SizedBox(height: 8);
   final _emptyBox = const SizedBox();
 
   void _singleAttachmentUpload(File imageFile, AuthViewModel authViewModel) {
+    _s3UploadedIds.clear();
     authViewModel.uploadAttachmentToBucket(
-        imageFile.path.split('/').last, imageFile, (String? url) {});
+        imageFile.path.split('/').last, imageFile, (String? url) {
+      authViewModel
+          .uploadAttachmentToServer([url!], [imageFile.path.split('/').last],
+              (BuiltList<MyFile>? attachment) {
+        if (attachment != null) {
+          for (var p0 in attachment) {
+            setState(() {
+              _s3UploadedIds.add(p0.id!);
+            });
+          }
+          showInSnackBar();
+        }
+      });
+    });
   }
 
   void _multipleAttachmentUpload(
       List<File> imageFiles, AuthViewModel authViewModel) {
+    _s3UploadedIds.clear();
     for (var element in imageFiles) {
-      _attachmentNameList.add(element.path.split('/').last);
-      _fileList.add(element);
-      // driveViewModel.uploadFileAction(element.name, File(element.path!),
-      //         (String? url) {
-      //       authViewModel.uploadAttachmentToServerAction(
-      //           [url!], [element.name], (BuiltList<MyFile>? attachment) {
-      //         if (attachment != null) {
-      //           for (var p0 in attachment) {
-      //             setState(() {
-      //               identificationIDList!.add(p0.id!.toString());
-      //             });
-      //           }
-      //         }
-      //       }, false);
-      //     });
+      authViewModel.uploadAttachmentToBucket(
+          element.path.split('/').last, element, (String? url) {
+        authViewModel
+            .uploadAttachmentToServer([url!], [element.path.split('/').last],
+                (BuiltList<MyFile>? attachment) {
+          if (attachment != null) {
+            for (var p0 in attachment) {
+              setState(() {
+                _s3UploadedIds.add(p0.id!);
+              });
+            }
+            showInSnackBar();
+          }
+        });
+      });
     }
+  }
+
+  void showInSnackBar() {
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Uploaded Successfully!!!")));
   }
 
   @override
@@ -55,6 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return AuthConnector(
         builder: (BuildContext context, AuthViewModel authViewModel) {
       return Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(title: Text(widget.title)),
         body: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 20),

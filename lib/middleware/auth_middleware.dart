@@ -31,7 +31,7 @@ class AuthMiddleware {
       store.dispatch(SetLoader(true));
       final Map<String, String> headersToApi = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer TokenHere',
+        'Authorization': 'Bearer PdPW2U8rFfdCSfNeFk7mZeiuuK6gvEvSlWvalPYLjUo',
       };
       final Map<String, dynamic> objToApi = <String, dynamic>{
         "filename": action.fileName
@@ -57,7 +57,7 @@ class AuthMiddleware {
         action.attachment!(
             document.toString().split('<Key>').last.split('</Key>').first);
       }
-      store.dispatch(SetLoader(false));
+     // store.dispatch(SetLoader(false));
     } on ApiError catch (e) {
       store.dispatch(SetLoader(false));
       debugPrint('============ upload file block ========== ${e.toString()}');
@@ -77,7 +77,7 @@ class AuthMiddleware {
       store.dispatch(SetLoader(true));
       final Map<String, String> headersToApi = {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer TokenHere',
+        'Authorization': 'Bearer PdPW2U8rFfdCSfNeFk7mZeiuuK6gvEvSlWvalPYLjUo',
       };
       List<Map<String, dynamic>>? x = [];
       for (int i = 0; i < action.fileName!.length; i++) {

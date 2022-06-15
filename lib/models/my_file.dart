@@ -11,10 +11,8 @@ abstract class MyFile implements Built<MyFile, MyFileBuilder> {
 
   MyFile._();
 
-  @BuiltValueField(wireName: 'id')
   int? get id;
 
-  @BuiltValueField(wireName: 'filename')
   String? get filename;
 
   @BuiltValueField(wireName: 's3_url')
@@ -25,12 +23,6 @@ abstract class MyFile implements Built<MyFile, MyFileBuilder> {
 
   @BuiltValueField(wireName: 's3_key')
   String? get s3ObjectId;
-
-  @BuiltValueField(wireName: 'public_url')
-  String? get publicUrl;
-
-  @BuiltValueField(wireName: 'is_visible_drive')
-  bool? get isVisibleDrive;
 
   static Serializer<MyFile> get serializer => _$myFileSerializer;
 }

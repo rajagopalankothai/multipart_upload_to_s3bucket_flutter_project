@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_presigned_url/connector/auth_connector.dart';
 
 class UploadAllButton extends StatelessWidget {
   const UploadAllButton(
@@ -9,12 +10,21 @@ class UploadAllButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Text('Multiple attachment upload for $imageType')),
-        OutlinedButton(
-            onPressed: () => onTap(), child: const Text('Upload All')),
-      ],
-    );
+    return AuthConnector(
+        builder: (BuildContext context, AuthViewModel authViewModel) {
+      return Row(
+        children: [
+          Expanded(child: Text('Multiple attachment upload for $imageType')),
+          authViewModel.isLoading
+              ? const SizedBox(
+                  height: 15,
+                  width: 15,
+                  child: CircularProgressIndicator.adaptive(
+                      backgroundColor: Colors.blueGrey))
+              : OutlinedButton(
+                  onPressed: () => onTap(), child: const Text('Upload All')),
+        ],
+      );
+    });
   }
 }
