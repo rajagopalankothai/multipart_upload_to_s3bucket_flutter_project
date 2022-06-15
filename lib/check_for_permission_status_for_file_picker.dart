@@ -26,6 +26,7 @@ class CheckPermissionForFilePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+        contentPadding: const EdgeInsets.all(0),
         leading: Icon(icon),
         title: Text(name),
         onTap: () async {
@@ -74,7 +75,7 @@ class CheckPermissionForFilePicker extends StatelessWidget {
     } catch (e) {
       debugPrint(e.toString());
     } finally {
-     // Navigator.pop(context);
+      // Navigator.pop(context);
     }
   }
 }

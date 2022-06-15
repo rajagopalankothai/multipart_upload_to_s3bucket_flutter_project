@@ -23,6 +23,7 @@ class CheckPermissionForImagePicker extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+        contentPadding: const EdgeInsets.all(0),
         leading: Icon(icon),
         title: Text(name),
         onTap: () async {
