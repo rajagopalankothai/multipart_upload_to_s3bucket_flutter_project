@@ -53,6 +53,14 @@ class _$ApiSuccessSerializer implements StructuredSerializer<ApiSuccess> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(S3BucketResponse)));
     }
+    value = object.uploadedFile;
+    if (value != null) {
+      result
+        ..add('contents')
+        ..add(serializers.serialize(value,
+            specifiedType:
+                const FullType(BuiltList, const [const FullType(MyFile)])));
+    }
     return result;
   }
 
@@ -88,6 +96,12 @@ class _$ApiSuccessSerializer implements StructuredSerializer<ApiSuccess> {
                   specifiedType: const FullType(S3BucketResponse))!
               as S3BucketResponse);
           break;
+        case 'contents':
+          result.uploadedFile.replace(serializers.deserialize(value,
+                  specifiedType: const FullType(
+                      BuiltList, const [const FullType(MyFile)]))!
+              as BuiltList<Object?>);
+          break;
       }
     }
 
@@ -106,12 +120,19 @@ class _$ApiSuccess extends ApiSuccess {
   final String? url;
   @override
   final S3BucketResponse? urlFields;
+  @override
+  final BuiltList<MyFile>? uploadedFile;
 
   factory _$ApiSuccess([void Function(ApiSuccessBuilder)? updates]) =>
       (new ApiSuccessBuilder()..update(updates))._build();
 
   _$ApiSuccess._(
-      {this.status, this.message, this.success, this.url, this.urlFields})
+      {this.status,
+      this.message,
+      this.success,
+      this.url,
+      this.urlFields,
+      this.uploadedFile})
       : super._();
 
   @override
@@ -129,17 +150,20 @@ class _$ApiSuccess extends ApiSuccess {
         message == other.message &&
         success == other.success &&
         url == other.url &&
-        urlFields == other.urlFields;
+        urlFields == other.urlFields &&
+        uploadedFile == other.uploadedFile;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
         $jc(
-            $jc($jc($jc(0, status.hashCode), message.hashCode),
-                success.hashCode),
-            url.hashCode),
-        urlFields.hashCode));
+            $jc(
+                $jc($jc($jc(0, status.hashCode), message.hashCode),
+                    success.hashCode),
+                url.hashCode),
+            urlFields.hashCode),
+        uploadedFile.hashCode));
   }
 
   @override
@@ -149,7 +173,8 @@ class _$ApiSuccess extends ApiSuccess {
           ..add('message', message)
           ..add('success', success)
           ..add('url', url)
-          ..add('urlFields', urlFields))
+          ..add('urlFields', urlFields)
+          ..add('uploadedFile', uploadedFile))
         .toString();
   }
 }
@@ -179,6 +204,12 @@ class ApiSuccessBuilder implements Builder<ApiSuccess, ApiSuccessBuilder> {
   set urlFields(S3BucketResponseBuilder? urlFields) =>
       _$this._urlFields = urlFields;
 
+  ListBuilder<MyFile>? _uploadedFile;
+  ListBuilder<MyFile> get uploadedFile =>
+      _$this._uploadedFile ??= new ListBuilder<MyFile>();
+  set uploadedFile(ListBuilder<MyFile>? uploadedFile) =>
+      _$this._uploadedFile = uploadedFile;
+
   ApiSuccessBuilder();
 
   ApiSuccessBuilder get _$this {
@@ -189,6 +220,7 @@ class ApiSuccessBuilder implements Builder<ApiSuccess, ApiSuccessBuilder> {
       _success = $v.success;
       _url = $v.url;
       _urlFields = $v.urlFields?.toBuilder();
+      _uploadedFile = $v.uploadedFile?.toBuilder();
       _$v = null;
     }
     return this;
@@ -217,12 +249,15 @@ class ApiSuccessBuilder implements Builder<ApiSuccess, ApiSuccessBuilder> {
               message: message,
               success: success,
               url: url,
-              urlFields: _urlFields?.build());
+              urlFields: _urlFields?.build(),
+              uploadedFile: _uploadedFile?.build());
     } catch (_) {
       late String _$failedField;
       try {
         _$failedField = 'urlFields';
         _urlFields?.build();
+        _$failedField = 'uploadedFile';
+        _uploadedFile?.build();
       } catch (e) {
         throw new BuiltValueNestedFieldError(
             r'ApiSuccess', _$failedField, e.toString());

@@ -10,18 +10,24 @@ class _$AuthViewModel extends AuthViewModel {
   @override
   final bool isLoading;
   @override
-  final UploadAttachmentToServerAction uploadAttachmentToServerAction;
+  final UploadAttachmentToBucketAction uploadAttachmentToBucket;
+  @override
+  final UploadAttachmentToServerAction uploadAttachmentToServer;
 
   factory _$AuthViewModel([void Function(AuthViewModelBuilder)? updates]) =>
       (new AuthViewModelBuilder()..update(updates))._build();
 
   _$AuthViewModel._(
-      {required this.isLoading, required this.uploadAttachmentToServerAction})
+      {required this.isLoading,
+      required this.uploadAttachmentToBucket,
+      required this.uploadAttachmentToServer})
       : super._() {
     BuiltValueNullFieldError.checkNotNull(
         isLoading, r'AuthViewModel', 'isLoading');
-    BuiltValueNullFieldError.checkNotNull(uploadAttachmentToServerAction,
-        r'AuthViewModel', 'uploadAttachmentToServerAction');
+    BuiltValueNullFieldError.checkNotNull(
+        uploadAttachmentToBucket, r'AuthViewModel', 'uploadAttachmentToBucket');
+    BuiltValueNullFieldError.checkNotNull(
+        uploadAttachmentToServer, r'AuthViewModel', 'uploadAttachmentToServer');
   }
 
   @override
@@ -37,22 +43,23 @@ class _$AuthViewModel extends AuthViewModel {
     final dynamic _$dynamicOther = other;
     return other is AuthViewModel &&
         isLoading == other.isLoading &&
-        uploadAttachmentToServerAction ==
-            _$dynamicOther.uploadAttachmentToServerAction;
+        uploadAttachmentToBucket == _$dynamicOther.uploadAttachmentToBucket &&
+        uploadAttachmentToServer == _$dynamicOther.uploadAttachmentToServer;
   }
 
   @override
   int get hashCode {
     return $jf($jc(
-        $jc(0, isLoading.hashCode), uploadAttachmentToServerAction.hashCode));
+        $jc($jc(0, isLoading.hashCode), uploadAttachmentToBucket.hashCode),
+        uploadAttachmentToServer.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'AuthViewModel')
           ..add('isLoading', isLoading)
-          ..add(
-              'uploadAttachmentToServerAction', uploadAttachmentToServerAction))
+          ..add('uploadAttachmentToBucket', uploadAttachmentToBucket)
+          ..add('uploadAttachmentToServer', uploadAttachmentToServer))
         .toString();
   }
 }
@@ -65,12 +72,19 @@ class AuthViewModelBuilder
   bool? get isLoading => _$this._isLoading;
   set isLoading(bool? isLoading) => _$this._isLoading = isLoading;
 
-  UploadAttachmentToServerAction? _uploadAttachmentToServerAction;
-  UploadAttachmentToServerAction? get uploadAttachmentToServerAction =>
-      _$this._uploadAttachmentToServerAction;
-  set uploadAttachmentToServerAction(
-          UploadAttachmentToServerAction? uploadAttachmentToServerAction) =>
-      _$this._uploadAttachmentToServerAction = uploadAttachmentToServerAction;
+  UploadAttachmentToBucketAction? _uploadAttachmentToBucket;
+  UploadAttachmentToBucketAction? get uploadAttachmentToBucket =>
+      _$this._uploadAttachmentToBucket;
+  set uploadAttachmentToBucket(
+          UploadAttachmentToBucketAction? uploadAttachmentToBucket) =>
+      _$this._uploadAttachmentToBucket = uploadAttachmentToBucket;
+
+  UploadAttachmentToServerAction? _uploadAttachmentToServer;
+  UploadAttachmentToServerAction? get uploadAttachmentToServer =>
+      _$this._uploadAttachmentToServer;
+  set uploadAttachmentToServer(
+          UploadAttachmentToServerAction? uploadAttachmentToServer) =>
+      _$this._uploadAttachmentToServer = uploadAttachmentToServer;
 
   AuthViewModelBuilder();
 
@@ -78,7 +92,8 @@ class AuthViewModelBuilder
     final $v = _$v;
     if ($v != null) {
       _isLoading = $v.isLoading;
-      _uploadAttachmentToServerAction = $v.uploadAttachmentToServerAction;
+      _uploadAttachmentToBucket = $v.uploadAttachmentToBucket;
+      _uploadAttachmentToServer = $v.uploadAttachmentToServer;
       _$v = null;
     }
     return this;
@@ -103,11 +118,14 @@ class AuthViewModelBuilder
         new _$AuthViewModel._(
             isLoading: BuiltValueNullFieldError.checkNotNull(
                 isLoading, r'AuthViewModel', 'isLoading'),
-            uploadAttachmentToServerAction:
-                BuiltValueNullFieldError.checkNotNull(
-                    uploadAttachmentToServerAction,
-                    r'AuthViewModel',
-                    'uploadAttachmentToServerAction'));
+            uploadAttachmentToBucket: BuiltValueNullFieldError.checkNotNull(
+                uploadAttachmentToBucket,
+                r'AuthViewModel',
+                'uploadAttachmentToBucket'),
+            uploadAttachmentToServer: BuiltValueNullFieldError.checkNotNull(
+                uploadAttachmentToServer,
+                r'AuthViewModel',
+                'uploadAttachmentToServer'));
     replace(_$result);
     return _$result;
   }

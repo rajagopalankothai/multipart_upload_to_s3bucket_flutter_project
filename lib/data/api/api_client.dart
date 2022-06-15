@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_presigned_url/models/models.dart';
 import 'package:http/http.dart';
-import 'package:flutter_presigned_url/core/utils/utils.dart';
 import 'package:built_collection/built_collection.dart';
 import 'package:built_value/serializer.dart';
 import 'package:http/http.dart' as http;
@@ -52,7 +52,6 @@ class ApiResponse<T> extends http.Response {
         ) {
     _data = _getData();
     _error = _getError();
-//    _pagination = _getPagination();
   }
 
   final String? responseKey;
@@ -79,39 +78,6 @@ class ApiResponse<T> extends http.Response {
     ) as T;
   }
 
-  // end
-
-//   pagination block
-//  bool get hasPagination => _pagination != null;
-//
-//  Pagination get pagination => _pagination;
-//
-//  Pagination _pagination;
-//
-//  Pagination _getPagination() {
-//    if (!isSuccess || body == null) {
-//      return null;
-//    }
-//
-//    final dynamic decodedBody = json.decode(body);
-//
-//    if (decodedBody == null) {
-//      return null;
-//    }
-//
-//    if(decodedBody['pagination'] == null){
-//      return null;
-//    }
-//
-//    return serializers.deserialize(
-//      decodedBody,
-//      specifiedType: const FullType(Pagination),
-//    );
-//  }
-
-  // end
-
-  // error block
   ApiError? _error;
 
   ApiError get error => _error!;
@@ -205,7 +171,7 @@ class ApiClient extends io_client.IOClient {
     if (formDataRequest != null) {
       final Uri uri = Uri.parse(url.toString());
       final MultipartRequest request =
-           MultipartRequest(formDataRequest.method, uri);
+          MultipartRequest(formDataRequest.method, uri);
       request.headers.addAll(headers!);
       request.fields.addAll(formDataRequest.fields);
       request.files.addAll(formDataRequest.files);
@@ -266,5 +232,38 @@ class ApiClient extends io_client.IOClient {
     ''');
 
     return ApiResponse<R>.from(response, responseKey, fullType: fullType);
+  }
+}
+
+class Logger {
+  Logger({String? tag}) : tag = tag ?? 'Logger';
+
+  final String tag;
+
+  static bool get isProduction => const bool.fromEnvironment('dart.vm.product');
+
+  void d(String log) {
+    if (isProduction) {
+      return;
+    }
+    debugPrint('D/$tag : $log');
+  }
+
+  void i(String log) {
+    debugPrint('I/$tag : $log');
+  }
+
+  void w(String log) {
+    print(
+        'W/$tag Warning ===========================================================');
+    debugPrint(log);
+    print(
+        '==========================================================================');
+  }
+
+  void e(String log) {
+    print('E/$tag ----------------------Error----------------------');
+    debugPrint(log);
+    print('---------------------------------------------------------');
   }
 }

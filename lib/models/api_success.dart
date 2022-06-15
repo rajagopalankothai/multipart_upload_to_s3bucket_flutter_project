@@ -23,5 +23,8 @@ abstract class ApiSuccess implements Built<ApiSuccess, ApiSuccessBuilder> {
   @BuiltValueField(wireName: 'url_fields')
   S3BucketResponse? get urlFields;
 
+  @BuiltValueField(wireName: 'contents')
+  BuiltList<MyFile>? get uploadedFile;
+
   static Serializer<ApiSuccess> get serializer => _$apiSuccessSerializer;
 }

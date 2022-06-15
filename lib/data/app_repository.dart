@@ -3,7 +3,7 @@ import 'package:flutter_presigned_url/data/api/api_client.dart';
 import 'package:flutter_presigned_url/data/app_repository_provider.dart';
 import 'package:flutter_presigned_url/data/preference_client.dart';
 import 'package:flutter_presigned_url/data/services/api_service.dart';
-import 'package:flutter_presigned_url/data/services/auth/auth_service.dart';
+import 'package:flutter_presigned_url/data/services/auth_service.dart';
 
 class AppRepository {
   AppRepository({required this.preferencesClient, required this.config})
